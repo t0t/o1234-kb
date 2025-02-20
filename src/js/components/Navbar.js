@@ -46,6 +46,10 @@ class Navbar extends HTMLElement {
     }
   }
 
+  setActiveSection(sectionId) {
+    this.setAttribute('active-section', sectionId);
+  }
+
   render() {
     this.shadowRoot.innerHTML = `
       <style>

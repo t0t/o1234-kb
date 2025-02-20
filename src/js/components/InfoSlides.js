@@ -31,7 +31,7 @@ export class InfoSlides extends HTMLElement {
 
   render() {
     this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="/src/style.css">
+      <link rel="stylesheet" href="src/css/styles.css">
       <style>
         :host {
           display: block;

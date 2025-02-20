@@ -10,7 +10,7 @@ export class Video extends HTMLElement {
 
   render() {
     this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="/src/css/components.css">
+      <link rel="stylesheet" href="src/css/styles.css">
       <style>
         :host {
           display: block;

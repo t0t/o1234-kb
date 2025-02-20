@@ -36,6 +36,58 @@ class Navbar extends HTMLElement {
     this.setupEventListeners();
   }
 
+  setupEventListeners() {
+    // Obtener elementos del shadow DOM
+    const menuButton = this.shadowRoot.querySelector('.menu-button');
+    const nav = this.shadowRoot.querySelector('nav');
+    const links = this.shadowRoot.querySelectorAll('a');
+
+    // Manejar click en el botón de menú
+    if (menuButton) {
+      menuButton.addEventListener('click', () => {
+        nav.classList.toggle('menu-open');
+        menuButton.setAttribute('aria-expanded', 
+          menuButton.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'
+        );
+      });
+    }
+
+    // Manejar clicks en los enlaces
+    links.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const href = link.getAttribute('href');
+        const targetElement = document.querySelector(href);
+
+        if (targetElement) {
+          // Cerrar el menú móvil si está abierto
+          nav.classList.remove('menu-open');
+          menuButton.setAttribute('aria-expanded', 'false');
+
+          // Scroll suave a la sección
+          const navbarHeight = this.offsetHeight;
+          const targetPosition = targetElement.offsetTop - navbarHeight;
+
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+
+          // Actualizar la URL
+          history.pushState(null, '', href);
+        }
+      }, { passive: true });
+    });
+
+    // Cerrar menú al hacer click fuera
+    document.addEventListener('click', (e) => {
+      if (nav.classList.contains('menu-open') && !this.contains(e.target)) {
+        nav.classList.remove('menu-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+      }
+    }, { passive: true });
+  }
+
   static get observedAttributes() {
     return ['active-section'];
   }
@@ -48,6 +100,14 @@ class Navbar extends HTMLElement {
 
   setActiveSection(sectionId) {
     this.setAttribute('active-section', sectionId);
+  }
+
+  updateActiveLink(sectionId) {
+    const links = this.shadowRoot.querySelectorAll('a');
+    links.forEach(link => {
+      const href = link.getAttribute('href').substring(1);
+      link.classList.toggle('active', href === sectionId);
+    });
   }
 
   render() {
@@ -249,59 +309,6 @@ class Navbar extends HTMLElement {
         </ul>
       </dialog>
     `;
-  }
-
-  setupEventListeners() {
-    const menuButton = this.shadowRoot.querySelector('.menu-button');
-    const dialog = this.shadowRoot.querySelector('dialog');
-    const closeButton = this.shadowRoot.querySelector('.close-button');
-    const links = this.shadowRoot.querySelectorAll('a[href^="#"]');
-
-    menuButton.addEventListener('click', () => {
-      dialog.showModal();
-    });
-
-    closeButton.addEventListener('click', () => {
-      dialog.close();
-    });
-
-    dialog.addEventListener('click', (e) => {
-      if (e.target === dialog) {
-        dialog.close();
-      }
-    });
-
-    links.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = link.getAttribute('href').slice(1);
-        const targetElement = document.getElementById(targetId);
-        
-        if (targetElement) {
-          targetElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-          
-          if (dialog.open) {
-            dialog.close();
-          }
-        }
-      });
-    });
-  }
-
-  updateActiveLink(sectionId) {
-    // Actualizar enlaces en ambos menús (móvil y desktop)
-    const allLinks = this.shadowRoot.querySelectorAll('a[href^="#"]');
-    allLinks.forEach(link => {
-      const href = link.getAttribute('href').slice(1);
-      if (href === sectionId) {
-        link.classList.add('active');
-      } else {
-        link.classList.remove('active');
-      }
-    });
   }
 }
 

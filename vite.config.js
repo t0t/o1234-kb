@@ -6,7 +6,7 @@ export default defineConfig(({ command, mode }) => {
   
   return {
     // Base URL según el entorno
-    base: env.VITE_BASE_URL || '/',
+    base: '/o1234-kb/',
 
     // Configuración de CSS
     css: {
@@ -22,6 +22,15 @@ export default defineConfig(({ command, mode }) => {
         compress: {
           drop_console: mode === 'production',
           drop_debugger: mode === 'production'
+        }
+      },
+      // Asegurarnos que los assets se sirven con rutas relativas
+      assetsDir: 'assets',
+      rollupOptions: {
+        output: {
+          assetFileNames: 'assets/[name].[hash].[ext]',
+          chunkFileNames: 'assets/[name].[hash].js',
+          entryFileNames: 'assets/[name].[hash].js'
         }
       }
     },

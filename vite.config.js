@@ -1,4 +1,5 @@
 import { defineConfig, loadEnv } from 'vite'
+import { resolve } from 'path'
 
 export default defineConfig(({ command, mode }) => {
   // Cargar variables de entorno según el modo (development/production)
@@ -16,6 +17,7 @@ export default defineConfig(({ command, mode }) => {
     // Configuración de build
     build: {
       outDir: 'dist',
+      emptyOutDir: true,
       sourcemap: mode === 'development',
       minify: mode === 'production' ? 'terser' : false,
       terserOptions: {
@@ -24,13 +26,19 @@ export default defineConfig(({ command, mode }) => {
           drop_debugger: mode === 'production'
         }
       },
-      // Asegurarnos que los assets se sirven con rutas relativas
-      assetsDir: 'assets',
       rollupOptions: {
+        input: {
+          main: resolve(__dirname, 'index.html')
+        },
         output: {
-          assetFileNames: 'assets/[name].[hash].[ext]',
+          entryFileNames: 'assets/[name].[hash].js',
           chunkFileNames: 'assets/[name].[hash].js',
-          entryFileNames: 'assets/[name].[hash].js'
+          assetFileNames: (assetInfo) => {
+            if (assetInfo.name === 'index.css') {
+              return 'assets/[name].[hash][extname]'
+            }
+            return 'assets/[name].[hash][extname]'
+          }
         }
       }
     },

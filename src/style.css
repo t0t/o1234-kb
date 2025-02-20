@@ -1,0 +1,74 @@
+/* Import global styles */
+@import './css/global.css';
+@import './css/components.css';
+
+a {
+  font-weight: 500;
+  color: var(--color-primary);
+  text-decoration: inherit;
+}
+a:hover {
+  color: var(--color-primary);
+}
+
+body {
+  margin: 0;
+  display: block;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: var(--size-5xl);
+  line-height: 1.1;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: var(--transition-default);
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em var(--color-primary));
+}
+.logo.vanilla:hover {
+  filter: drop-shadow(0 0 2em #f7df1eaa);
+}
+
+.card {
+  padding: var(--spacing-8);
+}
+
+.read-the-docs {
+  color: var(--color-gray-400);
+}
+
+button {
+  border-radius: var(--border-radius-default);
+  border: 1px solid transparent;
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: var(--size-base);
+  font-weight: 500;
+  font-family: var(--font-family);
+  background-color: var(--color-gray-900);
+  cursor: pointer;
+  transition: var(--transition-default);
+}
+button:hover {
+  border-color: var(--color-primary);
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: var(--color-gray-800);
+    background-color: var(--color-white);
+  }
+  button {
+    background-color: var(--color-gray-100);
+  }
+}

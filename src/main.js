@@ -1,4 +1,4 @@
-import './css/styles.css';
+// Importar componentes
 import './js/components/Navbar.js';
 import './js/components/Hero.js';
 import './js/components/Features.js';

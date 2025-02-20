@@ -20,9 +20,77 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/styles.css">
+    <script type="module">
+      // Importar componentes
+      import './src/js/components/Navbar.js';
+      import './src/js/components/Hero.js';
+      import './src/js/components/Features.js';
+      import './src/js/components/Fundamentals.js';
+      import './src/js/components/Uses.js';
+      import './src/js/components/InfoSlides.js';
+      import './src/js/components/FAQ.js';
+      import './src/js/components/Contact.js';
+      import './src/js/components/Footer.js';
+      import './src/js/components/Video.js';
+
+      // Inicializar la aplicación cuando el DOM esté listo
+      window.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('#app').innerHTML = `
+          <nav-bar></nav-bar>
+          <main>
+            <section id="hero">
+              <hero-section></hero-section>
+            </section>
+            <section id="features" class="container">
+              <features-section></features-section>
+            </section>
+            <section id="fundamentals" class="container">
+              <fundamentals-section></fundamentals-section>
+            </section>
+            <section id="video" class="container">
+              <video-section></video-section>
+            </section>
+            <section id="uses" class="container">
+              <uses-section></uses-section>
+            </section>
+            <section id="info-slides" class="container">
+              <info-slides-section></info-slides-section>
+            </section>
+            <section id="faq" class="container">
+              <faq-section></faq-section>
+            </section>
+            <section id="contact" class="container">
+              <contact-section></contact-section>
+            </section>
+          </main>
+          <footer-section></footer-section>
+        `;
+
+        // Configurar IntersectionObserver para la navegación
+        const sections = document.querySelectorAll('main > section');
+        const navBar = document.querySelector('nav-bar');
+
+        const observerOptions = {
+          root: null,
+          rootMargin: '0px',
+          threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const id = entry.target.getAttribute('id');
+              navBar.setActiveSection(id);
+            }
+          });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+      });
+    </script>
   </head>
   <body>
     <main id="app"></main>
-    <script type="module" src="src/main.js"></script>
   </body>
 </html>

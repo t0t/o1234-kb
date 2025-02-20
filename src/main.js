@@ -1,4 +1,4 @@
-import './css/global.css';
+import './css/styles.css';
 import './js/components/Navbar.js';
 import './js/components/Hero.js';
 import './js/components/Features.js';
@@ -49,16 +49,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const observerOptions = {
     root: null,
-    rootMargin: '-80px 0px 0px 0px', // Ajustar por la altura del navbar
-    threshold: 0.1
+    rootMargin: '0px',
+    threshold: 0.5
   };
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        const id = entry.target.id;
-        // Notificar al navbar qué sección está visible
-        navBar.setAttribute('active-section', id);
+        const id = entry.target.getAttribute('id');
+        navBar.setActiveSection(id);
       }
     });
   }, observerOptions);
